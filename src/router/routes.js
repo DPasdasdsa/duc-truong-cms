@@ -7,6 +7,11 @@ export default [
     component: import('../views/Index.vue')
   },
   {
+    path: '/base',
+    name: 'Base',
+    component: import('../views/Base.vue')
+  },
+  {
     path: '/home',
     name: 'home',
     component: HomeView

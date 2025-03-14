@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+// Colors
+$color-primary: #3ac6c6;
+$color-secondary: #6c757d;
+$color-danger: #e74c3c;
+$color-warning: #f1c40f;
+$color-success: #27ae60;
+$color-info: #17a2b8;
+$color-light: #ecf0f1;
+$color-dark: #2c3e50;
+$text-color: #333;
+$background-color: #f8f9fa;
+$light-background: #f8f9fa;
+$border-color: #e9e9e9;
+
+// Dark Theme
+$dark-background: #212529;
+
+// Fonts
+$font-primary: "Noto Sans", sans-serif;
+$font-menu: "Inter", sans-serif;
+$font-size-base: 14px;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// Border radius
+$border-radius-small: 4px;
+$border-radius-medium: 8px;
+$border-radius-large: 12px;
+
+// Form custom styles
+$border-color-input: #f8f8f8;
+$background-color-input: #e9e9e9;
+
+// Settings roots
+:root {
+  --color-primary: #{$color-primary};
+  --color-secondary: #{$color-secondary};
+  --background-color: #{$background-color};
+  --text-color: #{$text-color};
+  --font-primary: #{$font-primary};
+  --font-menu: #{$font-menu};
+  --font-size-base: #{$font-size-base};
+  --font-weight-normal: #{$font-weight-normal};
+  --font-weight-bold: #{$font-weight-bold};
+  --border-radius-small: #{$border-radius-small};
+  --border-radius-medium: #{$border-radius-medium};
+  --border-radius-large: #{$border-radius-large};
+  --background-color-input: #{$background-color-input};
+  --border-color: #{$border-color};
+  --border-color-input: #{$border-color-input};
+  --border-radius-input: #{$border-radius-medium};
+}
