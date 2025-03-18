@@ -1,4 +1,3 @@
-<!-- src/components/ModalCommon.vue -->
 <template>
   <transition name="modal">
     <div v-if="show" class="modal-overlay" :class="positionClass" @click.self="closeModal">
@@ -89,6 +88,6 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "@/assets/scss/component/_modalCommon.scss";
 </style>

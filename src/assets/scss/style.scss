@@ -1,7 +1,9 @@
+@import '../abstracts/reset';
+@import 'bootstrap/dist/css/bootstrap-grid.min.css';
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 @import '../abstracts/buttons';
 @import '../abstracts/form';
 @import '../abstracts/dropdown';
-@import '../abstracts/reset';
+@import '../scss/component/table';
 @import 'customGlobal';

@@ -272,10 +272,10 @@
         <button class="btn btn--info" @click="openModal2('center')">Mở Modal (Center)</button>
         <ModalCommon :show="isShowModal" :position="modalPosition" @close="closeModal">
           <div v-if="modal_1">
-            <h2>Modal 1 - position Top</h2>
+            <h2 class="modal-header">Modal 1 - position Top</h2>
           </div>
           <div v-else>
-            <h2>Modal 2 - position Center</h2>
+            <h2 class="modal-header">Modal 2 - position Center</h2>
           </div>
         </ModalCommon>
       </div>
@@ -288,6 +288,186 @@
         <button class="btn-style btn-style--info">Button Info</button>
         <button class="btn-style btn-style--warning">Button Warning</button>
       </div>
+      <br>
+      <h3>Grid Layout</h3>
+      <br>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-1 themed-grid-col">.col-1</div>
+          <div class="col-2 themed-grid-col">.col-2</div>
+          <div class="col-3 themed-grid-col">.col-3</div>
+          <div class="col-4 themed-grid-col">.col-4</div>
+          <div class="col-5 themed-grid-col">.col-5</div>
+          <div class="col-6 themed-grid-col">.col-6</div>
+          <div class="col-7 themed-grid-col">.col-7</div>
+          <div class="col-8 themed-grid-col">.col-8</div>
+          <div class="col-9 themed-grid-col">.col-9</div>
+          <div class="col-10 themed-grid-col">.col-10</div>
+          <div class="col-11 themed-grid-col">.col-11</div>
+          <div class="col-12 themed-grid-col">.col-12</div>
+        </div>
+      </div>
+      <br>
+      <h3>Table</h3>
+      <br>
+      <Table
+        :headers="tableHeaders"
+        :data="tableData"
+        variant="secondary"
+        :bordered="true"
+        :hover="true"
+        :striped="true"
+        :responsive="false"
+      >
+        <template #options="{ row, index }">
+          <button class="btn btn--small btn--default">Edit</button>
+          <button class="btn btn--small btn--danger btn--remove">
+          <span class="icon-remove">
+            <svg
+              class="bin-top"
+              viewBox="0 0 39 7"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
+              <line
+                x1="12"
+                y1="1.5"
+                x2="26.0357"
+                y2="1.5"
+                stroke="white"
+                stroke-width="3"
+              ></line>
+            </svg>
+            <svg
+              class="bin-bottom"
+              viewBox="0 0 33 39"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <mask id="path-1-inside-1_8_19" fill="white">
+                <path
+                  d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"
+                ></path>
+              </mask>
+              <path
+                d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
+                fill="white"
+                mask="url(#path-1-inside-1_8_19)"
+              ></path>
+              <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
+              <path d="M21 6V29" stroke="white" stroke-width="4"></path>
+            </svg>
+          </span>
+          </button>
+          <Dropdown>
+            <template #toggle>
+              <button class="btn btn--small btn--default">
+                <svg id="Icons" height="15" viewBox="0 0 24 24" width="15" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="2"/>
+                  <circle cx="4" cy="12" r="2"/>
+                  <circle cx="20" cy="12" r="2"/>
+                </svg>
+              </button>
+            </template>
+            <li class="dropdown-item">
+              <svg enable-background="new 0 0 100 100"
+                   height="15" viewBox="0 0 100 100" width="15"
+                   xmlns="http://www.w3.org/2000/svg">
+                <g>
+                  <path
+                    d="m18 84.2c1 0 1.2-.1 2.1-.3l18-3.6c1.9-.5 3.8-1.4 5.3-2.9l43.6-43.6c6.7-6.7 6.7-18.2 0-24.9l-3.7-3.9c-6.7-6.7-18.3-6.7-25 0l-43.6 43.7c-1.4 1.4-2.4 3.4-2.9 5.3l-3.8 18.2c-.5 3.4.5 6.7 2.9 9.1 1.9 1.9 4.7 2.9 7.1 2.9zm3.4-28.3 43.6-43.7c2.9-2.9 8.2-2.9 11 0l3.8 3.8c3.4 3.4 3.4 8.2 0 11.5l-43.5 43.7-18.5 3.1z"/>
+                  <path
+                    d="m86.6 90.4h-73.8c-2.9 0-4.8 1.9-4.8 4.8s2.4 4.8 4.8 4.8h73.4c2.9 0 5.3-1.9 5.3-4.8-.1-2.9-2.5-4.8-4.9-4.8z"/>
+                </g>
+              </svg>
+              Chỉnh sửa
+            </li>
+            <li class="dropdown-item">
+              <svg data-name="Layer 2" width="15" height="15"
+                   viewBox="0 0 24 24">
+                <path
+                  d="M19,7a1,1,0,0,0-1,1V19.191A1.92,1.92,0,0,1,15.99,21H8.01A1.92,1.92,0,0,1,6,19.191V8A1,1,0,0,0,4,8V19.191A3.918,3.918,0,0,0,8.01,23h7.98A3.918,3.918,0,0,0,20,19.191V8A1,1,0,0,0,19,7Z"/>
+                <path d="M20,4H16V2a1,1,0,0,0-1-1H9A1,1,0,0,0,8,2V4H4A1,1,0,0,0,4,6H20a1,1,0,0,0,0-2ZM10,4V3h4V4Z"/>
+                <path d="M11,17V10a1,1,0,0,0-2,0v7a1,1,0,0,0,2,0Z"/>
+                <path d="M15,17V10a1,1,0,0,0-2,0v7a1,1,0,0,0,2,0Z"/>
+              </svg>
+              Xóa bỏ
+            </li>
+            <li class="dropdown-item">
+              <svg clip-rule="evenodd" fill-rule="evenodd" height="15" stroke-linejoin="round" stroke-miterlimit="2"
+                   viewBox="0 0 512 512" width="15" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m256 200.508c-53.533 0-96.996 43.463-96.996 96.996 0 53.534 43.463 96.996 96.996 96.996s96.996-43.462 96.996-96.996c0-53.533-43.463-96.996-96.996-96.996zm0 50c25.938 0 46.996 21.059 46.996 46.996 0 25.938-21.058 46.996-46.996 46.996s-46.996-21.058-46.996-46.996c0-25.937 21.058-46.996 46.996-46.996zm-167.762 23.175c33.532-63.204 89.557-106.183 167.762-106.183s134.23 42.979 167.762 106.183c6.467 12.189 21.613 16.835 33.802 10.368 12.188-6.467 16.834-21.612 10.367-33.801-42.236-79.609-113.428-132.75-211.931-132.75s-169.695 53.141-211.931 132.75c-6.467 12.189-1.821 27.334 10.367 33.801 12.189 6.467 27.335 1.821 33.802-10.368z"
+                  fill="rgb(0,0,0)"/>
+              </svg>
+              Xem chi tiết
+            </li>
+            <li class="dropdown-item" disabled>
+              <svg viewBox="0 0 32 32" width="15" height="15">
+                <g id="_12-Lock" data-name="12-Lock">
+                  <path
+                    d="M23,12V8.71A6.72,6.72,0,0,0,16.29,2h-.58A6.72,6.72,0,0,0,9,8.71V12a3,3,0,0,0-3,3v9.3A5.71,5.71,0,0,0,11.7,30h8.6A5.71,5.71,0,0,0,26,24.3V15A3,3,0,0,0,23,12ZM11,8.71A4.71,4.71,0,0,1,15.71,4h.58A4.71,4.71,0,0,1,21,8.71V12H11ZM24,24.3A3.7,3.7,0,0,1,20.3,28H11.7A3.7,3.7,0,0,1,8,24.3V15a1,1,0,0,1,1-1H23a1,1,0,0,1,1,1Z"/>
+                  <path d="M17,20.72V24a1,1,0,0,1-2,0V20.72a2,2,0,1,1,2,0Z"/>
+                </g>
+              </svg>
+              Disabled
+            </li>
+          </Dropdown>
+        </template>
+      </Table>
+      <br>
+      <br>
+      <h3>Paginate</h3>
+      <nav class="pagination-wrapper">
+        <ul class="pagination">
+          <li class="page-item disabled">
+            <a href="#" class="page-link">
+              Trang trước
+            </a>
+          </li>
+          <li class="page-item active">
+            <a href="#" class="page-link">1</a>
+          </li>
+          <li class="page-item">
+            <a href="#" class="page-link">2</a>
+          </li>
+          <li class="page-item">
+            <a href="#" class="page-link">3</a>
+          </li>
+          <li class="page-item">
+            <a href="#" class="page-link">4</a>
+          </li>
+          <li class="page-item">
+            <a href="#" class="page-link">5</a>
+          </li>
+          <li class="page-item">
+            <a href="#" class="page-link">
+              Trang sau
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <br>
+      <h3>Collapse</h3>
+      <br>
+      <div>
+        <Collapse :items="singleAccordionItems" />
+        <br>
+        <h3>Collapse Group</h3>
+        <br>
+        <Collapse :items="accordionItems" :is-group="true">
+          <template #content-0>
+           <p>Nội dung item 1</p>
+          </template>
+          <template #content-1>
+            <p>Nội dung item 2</p>
+          </template>
+          <template #content-2>
+            <p>Nội dung item 3</p>
+          </template>
+        </Collapse>
+      </div>
     </div>
   </main>
 </template>
@@ -297,10 +477,12 @@ import Sidebar from "@/components/layout/Sidebar.vue";
 import Dropdown from "@/components/ui/Dropdown.vue";
 import ModalCommon from "@/components/ui/ModalCommon.vue";
 import NavHeader from "@/components/layout/NavHeader.vue";
+import Table from "@/components/ui/CustomTable.vue";
+import Collapse from "@/components/ui/Collapse.vue";
 
 export default {
   name: 'BaseTemplate',
-  components: {NavHeader, ModalCommon, Dropdown, Sidebar},
+  components: {Collapse, Table, NavHeader, ModalCommon, Dropdown, Sidebar},
   data() {
     return {
       isSidebarCollapsed: false,
@@ -308,6 +490,71 @@ export default {
       modalPosition: 'center',
       modal_1: true,
       modal_2: false,
+      tableHeaders: [
+        {text: 'Tên', key: 'name'},
+        {text: 'Tuổi', key: 'age'},
+        {text: 'Thành phố', key: 'city'},
+        {text: 'Tùy chọn', key: 'options'},
+      ],
+      tableData: [
+        {name: 'Nguyễn Văn A', age: 25, city: 'Hà Nội'},
+        {name: 'Trần Thị B', age: 30, city: 'TP.HCM'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+        {name: 'Lê Văn C', age: 22, city: 'Đà Nẵng'},
+      ],
+
+      accordionItems: [
+        { title: 'Thông tin cá nhân', isOpen: true },
+        { title: 'Chi tiết liên hệ', isOpen: false },
+        { title: 'Thông tin bổ sung', isOpen: false },
+      ],
+
+      singleAccordionItems: [
+        {
+          title: 'Item 1',
+          content: 'Content for item 1',
+          isOpen: false,
+        },
+        {
+          title: 'Item 2',
+          content: 'Content for item 2',
+          isOpen: false,
+        },
+        {
+          title: 'Item 3',
+          content: 'Content for item 3',
+          isOpen: false,
+        },
+      ],
+
+      groupAccordionItems: [
+        {
+          title: 'Group Item 1',
+          content: 'Content for group item 1',
+          isOpen: false,
+        },
+        {
+          title: 'Group Item 2',
+          content: 'Content for group item 2',
+          isOpen: false,
+        },
+        {
+          title: 'Group Item 3',
+          content: 'Content for group item 3',
+          isOpen: false,
+        },
+      ],
     };
   },
 

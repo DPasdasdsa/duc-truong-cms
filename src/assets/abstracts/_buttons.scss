@@ -89,6 +89,20 @@
       transition: all 0.3s;
     }
   }
+
+  &--small{
+    font-size: 12px;
+    padding: 0.5rem 0.5rem;
+
+    &.btn--remove{
+      .bin-bottom {
+        width: 10px;
+      }
+      .bin-top {
+        width: 14px;
+      }
+    }
+  }
 }
 
 .btn-style{
