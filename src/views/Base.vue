@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+  <NavHeader/>
   <Sidebar :is-collapsed="isSidebarCollapsed" @toggle-sidebar="toggleSidebar"/>
   <main class="main-content" :class="{ 'collapsed': isSidebarCollapsed }">
     <div class="box-layout">
@@ -294,13 +294,13 @@
 
 <script>
 import Sidebar from "@/components/layout/Sidebar.vue";
-import Header from "@/components/layout/NavHeader.vue";
 import Dropdown from "@/components/ui/Dropdown.vue";
 import ModalCommon from "@/components/ui/ModalCommon.vue";
+import NavHeader from "@/components/layout/NavHeader.vue";
 
 export default {
   name: 'BaseTemplate',
-  components: {ModalCommon, Dropdown, Sidebar, Header},
+  components: {NavHeader, ModalCommon, Dropdown, Sidebar},
   data() {
     return {
       isSidebarCollapsed: false,

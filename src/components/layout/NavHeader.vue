@@ -63,7 +63,6 @@
 import Dropdown from "@/components/ui/Dropdown.vue";
 
 export default {
-  name: 'Header',
   components: {Dropdown},
   data() {
     return {};
