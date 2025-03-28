@@ -1,6 +1,3 @@
-@import '../abstracts/variables';
-@import '../abstracts/mixins';
-
 .btn {
   @include button-base;
 
