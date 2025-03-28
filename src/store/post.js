@@ -11,7 +11,7 @@ export const usePostStore = defineStore("post", {
   actions: {
     async actionGetPost() {
       await service({
-        url: 'https://jsonplaceholder.typicode.com/posts',
+        url: '/posts',
         method: 'GET',
       })
         .then((res) => {
