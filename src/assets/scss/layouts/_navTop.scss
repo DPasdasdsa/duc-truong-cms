@@ -1,4 +1,3 @@
-@import "../../abstracts/mixins";
 .header {
   @include flex-between;
   background-color: var(--background-color);

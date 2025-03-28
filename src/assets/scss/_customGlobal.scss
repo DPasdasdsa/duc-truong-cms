@@ -36,65 +36,6 @@
   background-color: #f5f5f5;
 }
 
-/* pagination.scss */
-.pagination-wrapper {
-  margin: 2rem 0;
-}
-
-.pagination {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  gap: 6px;
-}
-
-.page-item {
-  &.active {
-    .page-link {
-      background-color: var(--color-primary);
-      color: white;
-      border-color: var(--color-primary);
-    }
-  }
-
-  &.disabled {
-    .page-link {
-      background-color: #f8f9fa;
-      color: #adb5bd;
-      border-color: #dee2e6;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-  }
-}
-
-.page-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 40px;
-  height: auto;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  background-color: white;
-  color: #495057;
-  font-size: 14px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  padding: 8px;
-  font-weight: 500;
-
-  &:hover:not(.disabled) {
-    background-color: #e9ecef;
-    border-color: #ced4da;
-    color: #343a40;
-  }
-
-  &:focus {
-    outline: none;
-  }
-}
 
 /* Responsive */
 @media (max-width: 600px) {

@@ -4,7 +4,7 @@
       <div class="modal-content">
         <button class="close-btn" @click="closeModal">
           <svg width="30" height="30"
-            x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+               x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
               <g>
                 <g>
                   <path
@@ -22,36 +22,6 @@
                     style="fill:none;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;"
                     x1="324.243" y1="324.243" x2="187.757" y2="187.757"/>
                 </g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
-              </g>
-            <g>
               </g>
               </svg>
         </button>
@@ -75,6 +45,11 @@ export default {
       validator: (value) => ['top', 'center'].includes(value),
     },
   },
+  watch:{
+    show(){
+      document.body.classList.toggle('modal-open');
+    }
+  },
   computed: {
     positionClass() {
       return `modal-${this.position}`;
@@ -88,6 +63,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/scss/component/_modalCommon.scss";
 </style>

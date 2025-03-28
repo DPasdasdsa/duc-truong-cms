@@ -10,6 +10,8 @@ import 'vue3-perfect-scrollbar/style.css';
 import ElementPlus from 'element-plus'
 import vi from 'element-plus/es/locale/lang/vi'
 import 'element-plus/dist/index.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const app = createApp(App)
 app.use(router)

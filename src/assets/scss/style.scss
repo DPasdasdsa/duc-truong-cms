@@ -1,7 +1,6 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 @import '../abstracts/reset';
-@import 'bootstrap/dist/css/bootstrap-grid.min.css';
-@import '../abstracts/buttons';
-@import '../abstracts/form';
+@import '../scss/layouts/sidebar';
+@import '../scss/layouts/navTop';
 @import 'customGlobal';

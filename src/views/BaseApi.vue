@@ -1,6 +1,6 @@
 <template>
   <div class="call-api">
-    <div v-if="isLoading">Chờ tí đang load ...</div>
+    <div v-if="isLoading">Loading ...</div>
     <div v-else v-for="(post, index) in posts" :key="index">
       <div>{{ post.title }}</div>
     </div>
