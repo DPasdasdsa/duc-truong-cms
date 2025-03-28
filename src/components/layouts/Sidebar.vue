@@ -1,7 +1,7 @@
 <template>
   <div :class="['sidebar', { 'sidebar--collapsed': isCollapsed }]">
     <div class="sidebar__toggle" @click="toggleSidebar">
-      <svg fill="currentColor" v-if="isCollapsed" enable-background="new 0 0 64 64" height="15" viewBox="0 0 64 64"
+      <svg fill="currentColor" v-if="isCollapsed" height="15" viewBox="0 0 64 64"
            width="15" xmlns="http://www.w3.org/2000/svg">
         <path
           d="m42.7 29.6c-5.5-5.5-11-11-16.5-16.5-.8-.8-1.6-1.6-2.4-2.4-1.8-1.8-4.7 1-2.8 2.8 5.5 5.5 11 11 16.5 16.5.3.3.6.6.9.9-5 5-10 10-15 15-.8.8-1.5 1.5-2.3 2.3-1.8 1.8 1 4.7 2.8 2.8l16.4-16.4 2.3-2.3c.9-.6.9-1.9.1-2.7z"/>
@@ -17,7 +17,7 @@
       <div class="sidebar__group">
         <div class="sidebar__heading">QUẢN LÝ CHUNG</div>
         <ul class="sidebar__list">
-          <li class="sidebar__item" :class="{ 'sidebar__item--active': $route.path === '/' }">
+          <li class="sidebar__item">
             <router-link to="/" class="sidebar__link">
               <span class="icon-menu">
                 <svg fill="none" height="25" viewBox="0 0 24 24" width="25" xmlns="http://www.w3.org/2000/svg"><g
@@ -31,8 +31,8 @@
               <span class="sidebar__text">Bảng điều khiển</span>
             </router-link>
           </li>
-          <li class="sidebar__item" :class="{ 'sidebar__item--active': $route.path === '/' }">
-            <router-link to="/alternate-dashboard" class="sidebar__link">
+          <li class="sidebar__item">
+            <router-link to="" class="sidebar__link">
               <span class="icon-menu">
                 <svg height="25" viewBox="0 0 36 36" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path
                   d="m18 34a1.07 1.07 0 0 1 -.48-.11l-4.87-2.43a13.79 13.79 0 0 1 -7.65-12.41v-12.14a1.07 1.07 0 0 1 1.05-1.07h3.47a7.45 7.45 0 0 0 4-1.19l3.87-2.48a1.07 1.07 0 0 1 1.15 0l3.87 2.48a7.45 7.45 0 0 0 4 1.19h3.47a1.07 1.07 0 0 1 1.12 1.07v12.14a13.79 13.79 0 0 1 -7.67 12.4l-4.87 2.43a1.07 1.07 0 0 1 -.46.12zm-10.88-26v11.05a11.67 11.67 0 0 0 6.49 10.49l4.39 2.2 4.39-2.2a11.67 11.67 0 0 0 6.49-10.49v-11.05h-2.4a9.57 9.57 0 0 1 -5.19-1.53l-3.29-2.14-3.29 2.12a9.57 9.57 0 0 1 -5.19 1.55z"/><path
@@ -62,20 +62,17 @@
                 <span class="sidebar__text">Quản lý khóa học</span>
               </div>
               <ul class="sidebar__dropdown-list">
-                <li class="sidebar__dropdown-item"
-                    :class="{ 'sidebar__item--active': $route.path === '/' }">
+                <li class="sidebar__dropdown-item">
                   <router-link to="" class="sidebar__link">
                     <span class="sidebar__text">Danh sách khóa học</span>
                   </router-link>
                 </li>
-                <li class="sidebar__dropdown-item"
-                    :class="{ 'sidebar__item--active': $route.path === '/' }">
+                <li class="sidebar__dropdown-item">
                   <router-link to="" class="sidebar__link">
                     <span class="sidebar__text">Danh sách bài tập</span>
                   </router-link>
                 </li>
-                <li class="sidebar__dropdown-item"
-                    :class="{ 'sidebar__item--active': $route.path === '/' }">
+                <li class="sidebar__dropdown-item">
                   <router-link to="" class="sidebar__link">
                     <span class="sidebar__text">Danh sách bài thi</span>
                   </router-link>
@@ -88,7 +85,8 @@
             <div class="sidebar__dropdown">
               <div class="sidebar__dropdown-header" @click="toggleDropdown($event)">
                 <span class="icon-menu">
-                  <svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                  <svg width="25" height="25" xmlns="http://www.w3.org/2000/svg"
+                       xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                        viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                   <g>
                     <g>
@@ -110,56 +108,23 @@
                         L308.606,300.9h172.815C475.997,371.187,432.81,433.991,369.328,463.75z"/>
                     </g>
                   </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
                   </svg>
                 </span>
                 <span class="sidebar__text">Thống kê số liệu</span>
               </div>
               <ul class="sidebar__dropdown-list">
-                <li class="sidebar__dropdown-item"
-                    :class="{ 'sidebar__item--active': $route.path === '/design-system/colors' }">
-                  <router-link to="/design-system/colors" class="sidebar__link">
+                <li class="sidebar__dropdown-item">
+                  <router-link to="" class="sidebar__link">
                     <span class="sidebar__text">Colors</span>
                   </router-link>
                 </li>
-                <li class="sidebar__dropdown-item"
-                    :class="{ 'sidebar__item--active': $route.path === '/design-system/typography' }">
-                  <router-link to="/design-system/typography" class="sidebar__link">
+                <li class="sidebar__dropdown-item">
+                  <router-link to="" class="sidebar__link">
                     <span class="sidebar__text">Typography</span>
                   </router-link>
                 </li>
-                <li class="sidebar__dropdown-item"
-                    :class="{ 'sidebar__item--active': $route.path === '/design-system/components' }">
-                  <router-link to="/design-system/components" class="sidebar__link">
+                <li class="sidebar__dropdown-item">
+                  <router-link class="sidebar__link" to="">
                     <span class="sidebar__text">Components</span>
                   </router-link>
                 </li>
@@ -173,6 +138,7 @@
 </template>
 <script>
 export default {
+  name: 'SidebarView',
   data() {
     return {
       isCollapsed: false,

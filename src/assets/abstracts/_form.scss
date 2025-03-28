@@ -18,7 +18,7 @@
   width: 100%;
   padding: 0.55rem 1rem;
   font-size: var(--font-size-base);
-  font-family: var(--font-primary);
+  font-family: var(--font-primary), serif;
   color: var(--text-color);
   background-color: var(--background-color-input);
   border: 1px solid var(--border-color-input);
@@ -28,7 +28,6 @@
   &:focus {
     outline: none;
     border-color: #c7c7c7;
-    box-shadow: 0 0 0 3px rgb(181 181 181 / 20%);
   }
 
   &::placeholder {
