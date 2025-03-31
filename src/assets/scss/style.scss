@@ -1,6 +1,4 @@
-@import '../abstracts/variables';
-@import '../abstracts/mixins';
-@import '../abstracts/reset';
-@import '../scss/layouts/sidebar';
-@import '../scss/layouts/navTop';
-@import 'customGlobal';
+@use '../abstracts/reset';
+@use '../scss/layouts/sidebar';
+@use '../scss/layouts/navTop';
+@use 'customGlobal';

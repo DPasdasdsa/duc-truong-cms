@@ -1,3 +1,4 @@
+@use '../abstracts/mixins' as *;
 #app {
   @include flex-column;
   min-height: 100vh;

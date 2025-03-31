@@ -64,5 +64,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/component/_modalCommon.scss";
+@use "@/assets/scss/component/_modalCommon.scss";
 </style>
