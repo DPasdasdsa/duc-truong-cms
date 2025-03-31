@@ -53,7 +53,9 @@ export const setLanguage = (lang) => {
 setLanguage('vi')
 export default {
   install(app) {
+    // eslint-disable-next-line vue/multi-word-component-names,vue/no-reserved-component-names
     app.component('Form', Form);
+    // eslint-disable-next-line vue/multi-word-component-names
     app.component('Field', Field);
     app.component('ErrorMessage', ErrorMessage);
   },

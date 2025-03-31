@@ -1,32 +1,22 @@
 <template>
   <div>
-    <h2>Base Vue 3 created by IT team.</h2>
-    <div>Vue router & middleware: {{ $t('messages.title_popup_success') }}</div>
-    <div>Vuex & call api: {{ $t('messages.title_popup_success') }}</div>
-    <div>Helper & mixins: {{ $t('messages.title_popup_success') }}</div>
-    <div>Multi language: {{ $t('messages.title_popup_success') }}</div>
+    Welcome.
     <div>
-      <Form @submit="testValidate()">
-        <label for="name">Test validate</label>
-        <Field name="duong" type="text" rules="required|decimal"/>
-        <ErrorMessage name="duong"/>
-      </Form>
+      <router-link :to="{name:'BaseTemplate'}">Click here to base template</router-link>
+    </div>
+    <div>
+      <router-link :to="{name:'BaseApi'}" class="btn-danger">Click here to base call api</router-link>
     </div>
   </div>
 </template>
 <script>
-import {mapGetters} from "vuex";
 
 export default {
-  computed:{
-    ...mapGetters({
-
-    })
+  name: 'IndexView',
+  data() {
+    return {}
   },
-  methods: {
-    testValidate() {
-      console.log('pass')
-    }
-  }
-}
+  async created() {
+  },
+};
 </script>
