@@ -9,14 +9,8 @@
     </div>
   </div>
 </template>
-<script>
-
-export default {
-  name: 'IndexView',
-  data() {
-    return {}
-  },
-  async created() {
-  },
-};
+<script setup>
+defineOptions({
+  name: 'IndexView'
+})
 </script>

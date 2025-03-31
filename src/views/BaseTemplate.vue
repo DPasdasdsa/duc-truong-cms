@@ -6,7 +6,7 @@
     <div>Helper & mixins: {{ $t('messages.title_popup_success') }}</div>
     <div>Multi language: {{ $t('messages.title_popup_success') }}</div>
     <div>
-      <Form @submit="testValidate()">
+      <Form>
         <label for="name">Test validate</label>
         <Field name="duong" type="text" rules="required|decimal"/>
         <ErrorMessage name="duong"/>
@@ -17,8 +17,8 @@
     <h3>Button Custom</h3>
     <br>
     <div class="list-group-item">
-      <button class="btn btn-primary" @click="openModal1('top')">Mở Modal (Top)</button>
-      <button class="btn btn-info" @click="openModal2('center')">Mở Modal (Center)</button>
+      <button class="btn btn-primary" @click="openModal('top')">Mở Modal (Top)</button>
+      <button class="btn btn-info" @click="openModal('center')">Mở Modal (Center)</button>
     </div>
     <h3>Grid Layout</h3>
     <br>
@@ -74,7 +74,7 @@
     <br>
   </div>
   <ModalCommon :show="isShowModal" :position="modalPosition" @close="closeModal">
-    <div v-if="modal_1">
+    <div v-if="modal1">
       <h2 class="modal-header">Modal 1 - position Top</h2>
     </div>
     <div v-else>
@@ -82,43 +82,25 @@
     </div>
   </ModalCommon>
 </template>
-<script>
-import {ErrorMessage, Field} from "vee-validate";
+<script setup>
 import ModalCommon from "@/components/ui/ModalCommon.vue";
+import {ref} from "vue";
+import {ErrorMessage, Field} from "vee-validate";
 
-export default {
-  name: 'BaseTemplate',
-  components: {ModalCommon, ErrorMessage, Field},
-  data() {
-    return {
-      posts: [],
-      isShowModal: false,
-      modalPosition: 'center',
-      modal_1: true,
-      modal_2: false,
-    }
-  },
-  async created() {
-  },
-  methods: {
-    testValidate() {
-      console.log(4343)
-    },
-    openModal1(position) {
-      this.modalPosition = position;
-      this.isShowModal = true;
-      this.modal_1 = true;
-    },
-    openModal2(position) {
-      this.modalPosition = position;
-      this.isShowModal = true;
-      this.modal_2 = true;
-    },
-    closeModal() {
-      this.isShowModal = false;
-      this.modal_1 = false;
-      this.modal_2 = false;
-    },
-  }
-};
+const modal1 = ref(false)
+const modal2 = ref(false)
+const isShowModal = ref(false)
+const modalPosition = ref('center')
+
+function closeModal() {
+  isShowModal.value = false;
+  modal1.value = false;
+  modal2.value = false;
+}
+
+function openModal(position, type) {
+  modalPosition.value = position;
+  isShowModal.value = true;
+  modal1.value = type;
+}
 </script>
