@@ -1,24 +1,82 @@
 export default [
   {
+    path: '/login:pathMatch(.*)*',
+    name: 'Login',
+    component: () => import('@/views/Auth/Login.vue'),
+  },
+  {
     path: '/',
     component: () => import('@/layouts/Default.vue'),
     children: [
       {
-        path: '/',
-        name: 'Index',
-        component: () => import('../views/Index.vue')
+        path: '/drivers',
+        name: 'Drivers',
+        component: () => import('../views/Drivers/Index.vue'),
+        meta: {
+          requireLogin: true,
+          breadCrumbs: [
+            {
+              'name': 'Drivers',
+              'displayName': 'Danh sách lái xe',
+            },
+          ],
+        }
       },
       {
-        path: '/base-template',
-        name: 'BaseTemplate',
-        component: () => import('../views/BaseTemplate.vue')
+        path: '/assistants',
+        name: 'Assistants',
+        component: () => import('../views/Assistants/Index.vue'),
+        meta: {
+          requireLogin: true,
+          breadCrumbs: [
+            {
+              'name': 'Assistants',
+              'displayName': 'Danh sách phụ xe',
+            },
+          ],
+        }
       },
       {
-        path: '/base-api',
-        name: 'BaseApi',
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import('../views/BaseApi.vue')
+        path: '/vehicles',
+        name: 'Vehicles',
+        component: () => import('../views/Vehicles/Index.vue'),
+        meta: {
+          requireLogin: true,
+          breadCrumbs: [
+            {
+              'name': 'Vehicles',
+              'displayName': 'Danh sách xe',
+            },
+          ],
+        }
+      },
+      {
+        path: '/trips',
+        name: 'Trips',
+        component: () => import('../views/Trips/Index.vue'),
+        meta: {
+          requireLogin: true,
+          breadCrumbs: [
+            {
+              'name': 'Trips',
+              'displayName': 'Danh chuyến xe trong ngày',
+            },
+          ],
+        }
+      },
+      {
+        path: '/assignments',
+        name: 'Assignments',
+        component: () => import('../views/Assignments/Schedule.vue'),
+        meta: {
+          requireLogin: true,
+          breadCrumbs: [
+            {
+              'name': 'Assignments',
+              'displayName': 'Lịch làm việc cho lái xe và phụ xe',
+            },
+          ],
+        }
       },
     ]
   }

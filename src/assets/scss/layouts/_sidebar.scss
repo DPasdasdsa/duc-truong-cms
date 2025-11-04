@@ -136,8 +136,8 @@
   }
 
   .router-link-active {
-    background-color: $color-primary;
-    color: white;
+    color: $color-primary;
+    background: var(--color-success);
   }
 
   &__dropdown {

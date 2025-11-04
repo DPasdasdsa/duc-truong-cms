@@ -1,38 +1,47 @@
 <template>
   <header class="header">
     <div class="header__left">
-      <h1 class="text-logo">HANKI CMS</h1>
+      <h1 class="text-logo">CMS-DT</h1>
     </div>
     <div class="header__right">
-      <div class="search-bar">
-        <div class="input-wrapper">
-          <button class="icon">
-            <svg fill="none" height="30" viewBox="0 0 24 25" width="30" xmlns="http://www.w3.org/2000/svg">
-              <linearGradient id="paint0_linear_275_2396" gradientUnits="userSpaceOnUse" x1="12" x2="12" y1="2.884"
-                              y2="21.996">
-                <stop offset="0" stop-color="#1bb0fd"/>
-                <stop offset="1" stop-color="#9bfcce"/>
-              </linearGradient>
-              <g clip-rule="evenodd" fill="url(#paint0_linear_275_2396)" fill-rule="evenodd">
-                <path
-                    d="m9.73332 2.42309c.00944.41411-.31861.75745-.73272.76689-2.83451.06458-4.17139.34953-5.05366 1.22873-.76534.7627-1.08936 1.87736-1.19785 4.05872-.02057.4137-.37262.73239-.78633.71182-.4137-.02058-.73239-.37263-.71182-.78633.1106-2.22377.44195-3.85562 1.63719-5.04671 1.35785-1.35314 3.2996-1.60253 6.0783-1.66584.41411-.00944.75746.31861.76689.73272zm4.53338 0c.0094-.41411.3528-.74216.7669-.73272 2.7787.06331 4.7205.3127 6.0783 1.66584 1.1952 1.19109 1.5266 2.82294 1.6372 5.04671.0206.4137-.2981.76575-.7118.78633-.4137.02057-.7658-.29812-.7864-.71182-.1084-2.18136-.4325-3.29602-1.1978-4.05872-.8823-.8792-2.2192-1.16415-5.0537-1.22873-.4141-.00944-.7421-.35278-.7327-.76689zm-12.30394 13.26801c.41371-.0206.76576.2981.78633.7118.10849 2.1814.43251 3.296 1.19785 4.0587.88227.8792 2.21915 1.1642 5.05366 1.2288.41411.0094.74216.3528.73272.7669-.00943.4141-.35278.7421-.76689.7327-2.7787-.0633-4.72045-.3127-6.0783-1.6659-1.19524-1.1911-1.52659-2.8229-1.63719-5.0467-.02057-.4137.29812-.7657.71182-.7863zm20.07454 0c.4137.0206.7324.3726.7118.7863-.1106 2.2238-.442 3.8556-1.6372 5.0467-1.3578 1.3532-3.2996 1.6026-6.0783 1.6659-.4141.0094-.7575-.3186-.7669-.7327s.3186-.7575.7327-.7669c2.8345-.0646 4.1714-.3496 5.0537-1.2288.7653-.7627 1.0894-1.8773 1.1978-4.0587.0206-.4137.3727-.7324.7864-.7118z"/>
-                <path
-                    d="m6.25003 11.9402c0-2.89951 2.35051-5.25001 5.24997-5.25001 2.8995 0 5.25 2.3505 5.25 5.25001 0 1.1792-.3888 2.2677-1.0452 3.1441l1.8256 1.8256c.2929.2929.2929.7677 0 1.0606s-.7678.2929-1.0607 0l-1.8255-1.8255c-.8765.6564-1.9649 1.0452-3.1442 1.0452-2.89946 0-5.24997-2.3505-5.24997-5.25zm5.24997-3.75001c-2.07104 0-3.74997 1.67893-3.74997 3.75001 0 2.0711 1.67893 3.75 3.74997 3.75 2.0711 0 3.75-1.6789 3.75-3.75 0-2.07108-1.6789-3.75001-3.75-3.75001z"/>
-              </g>
-            </svg>
-          </button>
-          <input placeholder="Nhập từ khóa tìm kiếm ..." class="input" name="text" type="text">
-        </div>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item" v-for="(breadCrumb, index) in breadCrumbs" :key="index"
+              :class="{active: index === (breadCrumbs.length -1)}">
+            <router-link :to="{name:breadCrumb.name}">{{ breadCrumb.displayName }}</router-link>
+          </li>
+        </ol>
+      </nav>
+      <div class="header__right-user">
+        <el-dropdown ref="dropdown1" trigger="click" style="margin-right: 30px">
+          <span class="el-dropdown-link">
+            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>
+                <router-link to="" class="item-option-setting">
+                  Thông tin cá nhân
+                </router-link>
+              </el-dropdown-item>
+              <el-dropdown-item @click="processLogout" class="item-option-setting">
+                Đăng xuất
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </div>
   </header>
 </template>
-<script>
+<script setup>
 
-export default {
-  data() {
-    return {};
-  },
-  methods: {}
+import router from "@/router";
+
+const breadCrumbs = [
+  {name: "Drivers", displayName: "Danh sách lái xe"},
+]
+const processLogout = async () => {
+  router.push("/login")
 }
 </script>

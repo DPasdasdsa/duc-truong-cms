@@ -21,7 +21,25 @@
 
   &__right {
     @include flex($align: center);
+    justify-content: space-between;
     gap: 1rem;
+    width: calc(100% - 255px);
+    &-user{
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+
+      .el-avatar--circle {
+        border-radius: 50%;
+        background: #e7e7e7;
+        padding: 3px;
+
+        img{
+          border-radius: 50%;
+        }
+      }
+    }
   }
 
   .search-bar {
