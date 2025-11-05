@@ -43,6 +43,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import {ElMessage} from "element-plus";
 import router from "@/router";
 import {useAuthStore} from "@/store/auth";
+import {setAccessToken} from "@/utils/token";
 
 const authStore = useAuthStore();
 const loading = ref(false);
@@ -64,14 +65,18 @@ const onSubmit = () => {
       await authStore.actionLogin({
         email: form.value.username,
         password: form.value.password
-      }).then(e => {
-        ElMessage({
-          message: 'Đăng nhập thành công !',
-          type: 'success',
-        })
-        router.push({
-          name: 'Drivers',
-        })
+      }).then(res => {
+        const data = res.data
+        if(data) {
+          setAccessToken(data)
+          ElMessage({
+            message: 'Đăng nhập thành công !',
+            type: 'success',
+          })
+          router.push({
+            name: 'Drivers',
+          })
+        }
       }).catch((e) => {
         ElMessage({
           message: e.message,
