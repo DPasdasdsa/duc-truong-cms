@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {LOGIN, LOGOUT, ME} from "@/api/auth.js";
 import service from "@/plugins/axios";
 
-export const useUserStore = defineStore("authStore", {
+export const useAuthStore = defineStore("authStore", {
   state: () => ({
     user: null,
   }),

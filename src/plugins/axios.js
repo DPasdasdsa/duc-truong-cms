@@ -17,12 +17,13 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
+    config.headers = config.headers || {};
+    config.headers.common = config.headers.common || {};
     const token = getToken(ACCESS_TOKEN);
     if (token) {
-      config.headers.common['Accept'] = 'application/json';
-      config.headers.common['Authorization'] = `Bearer ${token}`;
+      config.headers['Accept'] = 'application/json';
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
-
     return config;
   },
   (error) => Promise.reject(error)

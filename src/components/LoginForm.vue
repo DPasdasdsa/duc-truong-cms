@@ -40,13 +40,12 @@
 <script setup>
 import { ref } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
+import {ElMessage} from "element-plus";
+import router from "@/router";
+import {useAuthStore} from "@/store/auth";
 
-const props = defineProps({
-  loading: Boolean
-})
-
-const emit = defineEmits(['submit'])
-
+const authStore = useAuthStore();
+const loading = ref(false);
 const formRef = ref()
 const form = ref({
   username: '',
@@ -59,10 +58,28 @@ const rules = {
 }
 
 const onSubmit = () => {
-  formRef.value.validate((valid) => {
+  formRef.value.validate(async (valid) => {
+    loading.value = true
     if (valid) {
-      emit('submit', form.value)
+      await authStore.actionLogin({
+        email: form.value.username,
+        password: form.value.password
+      }).then(e => {
+        ElMessage({
+          message: 'Đăng nhập thành công !',
+          type: 'success',
+        })
+        router.push({
+          name: 'Drivers',
+        })
+      }).catch((e) => {
+        ElMessage({
+          message: e.message,
+          type: 'error',
+        })
+      })
     }
+    loading.value = false
   })
 }
 </script>

@@ -2,9 +2,7 @@
   <div class="login-page">
     <el-card class="login-card">
       <h2 class="login-title">Đăng nhập</h2>
-
-      <LoginForm @submit="handleLogin" :loading="loading" />
-
+      <LoginForm/>
       <div class="login-footer">
         <small>© 2025 Công ty DaoPham. All rights reserved.</small>
       </div>
@@ -13,42 +11,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import LoginForm from '@/components/LoginForm.vue'
-
-import router from "@/router";
-import {ElMessage} from "element-plus";
-
-
-const loading = ref(false)
-
-const handleLogin = async (formData) => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-    if(formData.username === 'admin@riki.edu.vn'){
-      ElMessage({
-        message: 'Đăng nhập thành công !',
-        type: 'success',
-      })
-      router.push({
-        name: 'Drivers',
-      })
-    } else {
-      ElMessage({
-        message: 'Đăng nhập thất bại!',
-        type: 'error',
-      })
-    }
-  }, 2000)
-  // try {
-  //   console.log('Dữ liệu đăng nhập:', formData)
-  //   // Gửi API đăng nhập ở đây
-  //   await new Promise((resolve) => setTimeout(resolve, 1000))
-  // } finally {
-  //   loading.value = false
-  // }
-}
 </script>
 
 <style scoped>
