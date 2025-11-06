@@ -11,23 +11,26 @@ export const useEmployeeStore = defineStore("employeeStore", {
   },
   actions: {
     async actionGetEmployees(params) {
-      await service({
-        url: GET,
-        method: 'GET',
-        params
-      })
-        .then((res) => {
+      return new Promise((resolve, reject) => {
+        service({
+          url: CREATE,
+          method: 'GET',
+          params
+        }).then(res => {
           this.employees = res.data
-        })
-        .catch((err) => {
+          resolve(res);
+        }).catch(err => {
+          reject(err);
           throw err;
         });
+      });
     },
-    async actionCreateEmployee() {
+    async actionCreateEmployee(params) {
       return new Promise((resolve, reject) => {
         service({
           url: CREATE,
           method: 'POST',
+          data: params
         }).then(res => {
           resolve(res);
         }).catch(err => {
