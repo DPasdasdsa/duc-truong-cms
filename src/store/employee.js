@@ -17,7 +17,6 @@ export const useEmployeeStore = defineStore("employeeStore", {
           method: 'GET',
           params
         }).then(res => {
-          this.employees = res.data
           resolve(res);
         }).catch(err => {
           reject(err);

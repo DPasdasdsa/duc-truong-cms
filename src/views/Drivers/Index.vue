@@ -18,6 +18,8 @@
                 size="large"
                 v-model="keyword"
                 placeholder="Nhập từ khóa tìm kiếm ..."
+                :disabled="loading"
+                @keyup.enter="handleSearch()"
               />
             </div>
           </div>
@@ -39,11 +41,12 @@
         <el-table
           :data="drivers"
           v-loading="loading"
+          :element-loading-spinner="ICON_LOADING"
           stripe
           border
           style="width: 100%"
         >
-          <el-table-column prop="id" label="ID" width="60" align="center" />
+          <el-table-column fixed label="STT" type="index" width="80" align="center"/>
           <el-table-column prop="name" label="Tên lái xe" />
           <el-table-column prop="phone" label="Số điện thoại" width="140" />
           <el-table-column prop="role" label="Chức vụ" width="160">
@@ -53,8 +56,32 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="created_at" label="Ngày tạo" width="140" />
+          <el-table-column prop="created_at" label="Ngày tạo" width="200" />
+            <el-table-column label="Thao tác" align="right" width="150">
+            <template #default="scope">
+              <el-button size="small" @click="openModal('edit', scope.row)">
+                Sửa
+              </el-button>
+              <el-popconfirm
+                title="Bạn có chắc chắn muốn xóa mục này không?"
+                @confirm="confirmDelete(scope.row.id)"
+              >
+                <template #reference>
+                  <el-button size="small" type="danger">Xóa</el-button>
+                </template>
+              </el-popconfirm>
+            </template>
+          </el-table-column>
         </el-table>
+        <el-pagination
+          class="el-pagination__rightwrapper"
+          v-if="paginate && paginate.total_page > 1"
+          :page-size="paginate.perPage"
+          :current-page="currentPage"
+          @current-change="setPaginate"
+          layout="prev, pager, next"
+          :total="paginate.total"
+        />
       </div>
     </div>
     <el-dialog
@@ -86,7 +113,7 @@
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="showModal = false">Hủy</el-button>
-          <el-button type="primary" v-loading="formLoading" @click="createOrUpdate">
+          <el-button type="primary" :loading="formLoading" @click="createOrUpdate">
             {{ isEditMode ? 'Chỉnh sửa' : 'Thêm mới'}}
           </el-button>
         </div>
@@ -99,9 +126,16 @@ import {Filter, Plus} from "@element-plus/icons-vue";
 import {onMounted, reactive, ref} from "vue";
 import {useEmployeeStore} from "@/store/employee";
 import {ElMessage} from "element-plus";
+import router from "@/router";
+import {useRoute} from "vue-router";
+import {ICON_LOADING} from "@/constants/common";
 const employeeStore = useEmployeeStore();
+const route = useRoute()
+
 
 onMounted(() => {
+  keyword.value = route.query.keyword ?? null
+  currentPage.value = route.query.page ?? 1
   loadData();
 })
 
@@ -109,12 +143,13 @@ const loading = ref(true)
 // 🔹 Dữ liệu mẫu
 const drivers = ref([])
 const keyword = ref(null)
-const search = ref('')
 const showModal = ref(false)
 const currentDriverId = ref(null)
 const formLoading = ref(false)
 const isEditMode = ref(false)
 const driverFormRef = ref(null)
+const currentPage = ref(1)
+const paginate = ref(null)
 const formData = reactive({
   name: '',
   phone: '',
@@ -136,15 +171,24 @@ const formRules = reactive({
 const loadData = async () => {
   loading.value = true
   await employeeStore.actionGetEmployees({
-    name: keyword.value,
+    keyword: keyword.value,
+    page: currentPage.value,
   }).then((response) => {
     if (response && response.data) {
-      drivers.value = response.data
+      const data =  response.data
+      drivers.value =data.data
+      paginate.value = {
+        perPage: data.meta.perPage,
+        total: data.meta.total,
+        current_page: data.meta.current_page,
+        total_page:data.meta.total_page,
+      }
     }
   }).catch((err) => {
     ElMessage({
-      message: err.status.message,
+      message: err.message,
       type: 'error',
+      placement:'top-right'
     })
   })
   loading.value = false
@@ -158,34 +202,44 @@ const getStatusType = (role) => {
   }
 }
 const resetForm = () => {
-  if(driverFormRef.value) {
+  if (driverFormRef.value) {
     driverFormRef.value.resetFields()
   }
+  formData.name = formData.phone = ''
+  formData.role = 'driver'
+  formLoading.value = false
   showModal.value = false
 }
-const openModal = (mode, id = null) => {
+const openModal = (mode, row = null) => {
   if (mode === 'create') {
+    formData.name = formData.phone = ''
+    formData.role = 'driver'
     isEditMode.value = false
     currentDriverId.value = null
-    // Reset form data nếu có
-  } else if (mode === 'edit' && id) {
+  } else if (mode === 'edit' && row) {
     isEditMode.value = true
-    currentDriverId.value = id
-    // Tải dữ liệu lái xe (row.id) vào form
+    currentDriverId.value = row.id
+    formData.role = row.role
+    formData.name = row.name
+    formData.phone = row.phone
   }
   showModal.value = true
 }
 const setErrorField = (errors) => {
-  if(!driverFormRef.value) return
-   Object.keys(errors).map(field => ({
-     driverFormRef.value.validateField(field)
-  }))
+  if (!driverFormRef.value) return
+  driverFormRef.value.clearValidate()
+  driverFormRef.value.fields.forEach(field => {
+    if (errors[field.prop]) {
+      field.validateMessage = errors[field.prop][0]
+      field.validateState = 'error'
+    }
+  })
 }
 const createOrUpdate = async () => {
   if(!driverFormRef.value) return
-  formLoading.value = true
   await driverFormRef.value.validate((valid, fields) => {
     if (valid) {
+      formLoading.value = true
       const payload = {
         name: formData.name,
         phone: formData.phone,
@@ -194,25 +248,62 @@ const createOrUpdate = async () => {
       }
       const response = !currentDriverId.value ? employeeStore.actionCreateEmployee(payload)
       :employeeStore.actionUpdateEmployee(payload)
-      response.then((response) => {
+      response.then(async (response) => {
         ElMessage({
           message: response.message,
           type: 'success',
+          placement:'top-right'
         })
         // update list data
-        loadData();
+        await loadData();
         resetForm()
       }).catch((err) => {
+        formLoading.value = false
         if(err.errors) {
           setErrorField(err.errors)
         }
         ElMessage({
           message: err.message,
           type: 'error',
+          placement:'top-right'
         })
       })
     }
   })
-  formLoading.value = false
+}
+const handleSearch = async () => {
+  currentPage.value = 1
+  await loadData()
+  await router.push({
+    query: {
+      page: 1,
+      keyword: keyword.value,
+    }
+  })
+}
+const confirmDelete = async (id) => {
+  await employeeStore.actionDeleteEmployee(id).then(async (response) => {
+    ElMessage({
+      message: response.message,
+      type: 'success',
+      placement:'top-right'
+    })
+    await loadData();
+  }).catch((err) => {
+    ElMessage({
+      message: err.message,
+      type: 'error',
+      placement:'top-right'
+    })
+  })
+}
+const setPaginate = (page) => {
+  currentPage.value = page
+  router.push({
+    query: {
+      page: page,
+    }
+  })
+  loadData()
 }
 </script>
