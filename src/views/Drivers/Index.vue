@@ -12,7 +12,7 @@
             </h3>
           </template>
           <div class="row">
-            <div class="col-12 form-group mb-0">
+            <div class="col-6 form-group mb-0">
               <label class="label">Tìm kiếm theo từ khóa</label>
               <el-input
                 size="large"
@@ -21,6 +21,18 @@
                 :disabled="loading"
                 @keyup.enter="handleSearch()"
               />
+            </div>
+            <div class="col-6 form-group mb-0">
+              <label class="label">Tìm kiếm theo chức vụ</label>
+              <el-select v-model="roleSearch" filterable @change="handleSearch()"
+                         placeholder="Tìm kiếm theo chức vụ" size="large">
+                <el-option
+                  v-for="item in optionRoles"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
             </div>
           </div>
         </el-collapse-item>
@@ -41,7 +53,6 @@
         <el-table
           :data="drivers"
           v-loading="loading"
-          :element-loading-spinner="ICON_LOADING"
           stripe
           border
           style="width: 100%"
@@ -128,7 +139,6 @@ import {useEmployeeStore} from "@/store/employee";
 import {ElMessage} from "element-plus";
 import router from "@/router";
 import {useRoute} from "vue-router";
-import {ICON_LOADING} from "@/constants/common";
 const employeeStore = useEmployeeStore();
 const route = useRoute()
 
@@ -143,6 +153,7 @@ const loading = ref(true)
 // 🔹 Dữ liệu mẫu
 const drivers = ref([])
 const keyword = ref(null)
+const roleSearch = ref(null)
 const showModal = ref(false)
 const currentDriverId = ref(null)
 const formLoading = ref(false)
@@ -150,6 +161,11 @@ const isEditMode = ref(false)
 const driverFormRef = ref(null)
 const currentPage = ref(1)
 const paginate = ref(null)
+const optionRoles = [
+  {id: null, name: "Tất cả"},
+  {id: "driver", name: "Tài xế"},
+  {id: "assistant", name: "Phụ xe"},
+]
 const formData = reactive({
   name: '',
   phone: '',
@@ -172,6 +188,7 @@ const loadData = async () => {
   loading.value = true
   await employeeStore.actionGetEmployees({
     keyword: keyword.value,
+    role: roleSearch.value,
     page: currentPage.value,
   }).then((response) => {
     if (response && response.data) {
@@ -278,6 +295,7 @@ const handleSearch = async () => {
     query: {
       page: 1,
       keyword: keyword.value,
+      role: roleSearch.value
     }
   })
 }
