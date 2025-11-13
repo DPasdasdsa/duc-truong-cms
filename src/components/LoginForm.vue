@@ -6,11 +6,12 @@
     label-position="top"
     class="login-form"
   >
-    <el-form-item label="Tên đăng nhập" prop="username">
+    <el-form-item label="Tên đăng nhập" prop="email">
       <el-input
         v-model="form.username"
         placeholder="Nhập tên đăng nhập"
         :prefix-icon="User"
+        @keyup.enter="onSubmit()"
       />
     </el-form-item>
 
@@ -20,6 +21,7 @@
         placeholder="Nhập mật khẩu"
         show-password
         :prefix-icon="Lock"
+        @keyup.enter="onSubmit()"
       />
     </el-form-item>
 
@@ -38,12 +40,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import {ElMessage} from "element-plus";
 import router from "@/router";
 import {useAuthStore} from "@/store/auth";
-import {setAccessToken} from "@/utils/token";
+import {removeAccessToken, setAccessToken} from "@/utils/token";
 
 const authStore = useAuthStore();
 const loading = ref(false);
@@ -57,6 +59,20 @@ const rules = {
   username: [{ required: true, message: 'Vui lòng nhập tên đăng nhập', trigger: 'blur' }],
   password: [{ required: true, message: 'Vui lòng nhập mật khẩu', trigger: 'blur' }]
 }
+onMounted(() => {
+  removeAccessToken()
+})
+
+const setErrorField = (errors) => {
+  if (!formRef.value) return
+  formRef.value.clearValidate()
+  formRef.value.fields.forEach(field => {
+    if (errors[field.prop]) {
+      field.validateMessage = errors[field.prop][0]
+      field.validateState = 'error'
+    }
+  })
+}
 
 const onSubmit = () => {
   formRef.value.validate(async (valid) => {
@@ -65,7 +81,7 @@ const onSubmit = () => {
       await authStore.actionLogin({
         email: form.value.username,
         password: form.value.password
-      }).then(res => {
+      }).then((res) => {
         const data = res.data
         if(data) {
           setAccessToken(data)
@@ -74,14 +90,17 @@ const onSubmit = () => {
             type: 'success',
           })
           router.push({
-            name: 'Drivers',
+            name: 'Profile',
           })
         }
-      }).catch((e) => {
+      }).catch(e => {
         ElMessage({
-          message: e.message,
+          message: 'Đăng nhập thất bại',
           type: 'error',
         })
+        if(e.errors) {
+          setErrorField(e.errors)
+        }
       })
     }
     loading.value = false

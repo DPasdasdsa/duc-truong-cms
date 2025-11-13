@@ -46,7 +46,6 @@ export const useAuthStore = defineStore("authStore", {
           resolve(res);
         }).catch(err => {
           reject(err);
-          throw err;
         });
       });
     },

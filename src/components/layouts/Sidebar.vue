@@ -27,12 +27,7 @@
               <ul class="sidebar__dropdown-list">
                 <li class="sidebar__dropdown-item">
                   <router-link :to="{name: 'Drivers'}" class="sidebar__link"  :class="{ 'active-sidebar-link': isActiveClass('/drivers') }">
-                    <span class="sidebar__text">Danh sách lái xe</span>
-                  </router-link>
-                </li>
-                <li class="sidebar__dropdown-item">
-                  <router-link :to="{name: 'Assistants'}" class="sidebar__link" :class="{ 'active-sidebar-link': isActiveClass('/assistants') }">
-                    <span class="sidebar__text">Danh sách phụ xe</span>
+                    <span class="sidebar__text">Danh sách nhân viên</span>
                   </router-link>
                 </li>
               </ul>

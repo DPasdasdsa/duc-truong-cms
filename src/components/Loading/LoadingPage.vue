@@ -52,7 +52,7 @@
 import { computed } from 'vue';
 
 defineOptions({
-  name: 'CustomTableLoader'
+  name: 'LoadingPage'
 })
 
 const loadingText = 'Đang tải dữ liệu...';

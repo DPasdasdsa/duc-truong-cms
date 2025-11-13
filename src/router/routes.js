@@ -9,6 +9,20 @@ export default [
     component: () => import('@/layouts/Default.vue'),
     children: [
       {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('../views/Profile/Index.vue'),
+        meta: {
+          requireLogin: true,
+          breadCrumbs: [
+            {
+              'name': 'Profile',
+              'displayName': 'Thông tin cá nhân',
+            },
+          ],
+        }
+      },
+      {
         path: '/drivers',
         name: 'Drivers',
         component: () => import('../views/Drivers/Index.vue'),

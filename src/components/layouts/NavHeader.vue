@@ -37,11 +37,24 @@
 <script setup>
 
 import router from "@/router";
+import {useAuthStore} from "@/store/auth";
+import {removeAccessToken} from "@/utils/token";
+import {ElMessage} from "element-plus";
+const authStore = useAuthStore();
 
 const breadCrumbs = [
   {name: "Drivers", displayName: "Danh sách lái xe"},
 ]
 const processLogout = async () => {
-  router.push("/login")
+  await authStore.actionLogout().then((response) => {
+    if(response) {
+      removeAccessToken()
+      ElMessage({
+        message: response.message,
+        type: 'success',
+      })
+      router.push("/login")
+    }
+  })
 }
 </script>

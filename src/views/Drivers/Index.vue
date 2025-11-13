@@ -42,7 +42,7 @@
   <section class="box-layout">
     <div class="box-layout_header">
       <div class="box-layout_header-title p-0">
-        <h3>DANH SÁCH LÁI XE</h3>
+        <h3>DANH SÁCH NHÂN VIÊN</h3>
       </div>
       <div class="box-layout_header-options">
         <el-button @click="openModal('create')" :loading="loading" type="primary" :icon="Plus">Thêm mới</el-button>
@@ -53,13 +53,23 @@
         <el-table
           :data="drivers"
           v-loading="loading"
+          :element-loading-svg="ICON_LOADING"
           stripe
           border
           style="width: 100%"
         >
           <el-table-column fixed label="STT" type="index" width="80" align="center"/>
-          <el-table-column prop="name" label="Tên lái xe" />
+          <el-table-column prop="name" label="Tên nhân viên" />
           <el-table-column prop="phone" label="Số điện thoại" width="140" />
+          <el-table-column prop="status" label="Trạng thái" width="160">
+            <template #default="{ row }">
+              <el-tag
+                :type="row.status ? 'success' : 'info'"
+              >
+                {{ row.status ? 'Đang hoạt động' : 'Tạm dừng' }}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column prop="role" label="Chức vụ" width="160">
             <template #default="{ row }">
               <el-tag :type="getStatusType(row.role)">
@@ -88,7 +98,7 @@
           class="el-pagination__rightwrapper"
           v-if="paginate && paginate.total_page > 1"
           :page-size="paginate.perPage"
-          :current-page="currentPage"
+          :current-page="parseInt(currentPage)"
           @current-change="setPaginate"
           layout="prev, pager, next"
           :total="paginate.total"
@@ -97,7 +107,7 @@
     </div>
     <el-dialog
       v-model="showModal"
-      :title="isEditMode ? 'CHỈNH SỬA LÁI XE' : 'THÊM MỚI LÁI XE'"
+      :title="isEditMode ? 'CHỈNH SỬA NHÂN VIÊN' : 'THÊM MỚI NHÂN VIÊN'"
       width="500"
       :close-on-click-modal="false"
       class="rounded-lg"
@@ -108,17 +118,29 @@
         :rules="formRules"
         label-position="top"
       >
-        <el-form-item label="Tên lái xe" prop="name" class="form-group positionR">
-          <el-input v-model="formData.name" placeholder="Nhập tên lái xe" />
+        <el-form-item label="Tên nhân viên" prop="name" class="form-group positionR">
+          <el-input v-model="formData.name" placeholder="Nhập tên nhân viên" />
         </el-form-item>
         <el-form-item label="Số điện thoại" prop="phone" class="form-group positionR">
           <el-input v-model="formData.phone" placeholder="Nhập số điện thoại" />
         </el-form-item>
         <el-form-item label="Chức vụ" prop="role" class="form-group positionR">
           <el-select v-model="formData.role" placeholder="Chọn chức vụ" style="width: 100%">
-            <el-option label="Tài xế" value="driver" />
-            <el-option label="Phụ xe" value="assistant" />
+            <el-option label="Tài xế" :value="1" />
+            <el-option label="Phụ xe" :value="2" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="Trạng thái hoạt động" prop="status" class="form-group positionR">
+          <el-switch
+            v-model="formData.status"
+            inline-prompt
+            :active-text="'Đang hoạt động'"
+            :inactive-text="'Tạm dừng'"
+            size="large"
+          />
+          <i class="note-form text-gray-500 ml-3">
+            {{ formData.status ? 'Nhân viên này hoạt động bình thường.' : 'Tạm thời không khả dụng trên hệ thống.' }}
+          </i>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -139,6 +161,7 @@ import {useEmployeeStore} from "@/store/employee";
 import {ElMessage} from "element-plus";
 import router from "@/router";
 import {useRoute} from "vue-router";
+import {ICON_LOADING} from "@/constants/common";
 const employeeStore = useEmployeeStore();
 const route = useRoute()
 
@@ -146,14 +169,14 @@ const route = useRoute()
 onMounted(() => {
   keyword.value = route.query.keyword ?? null
   currentPage.value = route.query.page ?? 1
+  roleSearch.value = route.query.role ? parseInt(route.query.role) : 0;
   loadData();
 })
 
 const loading = ref(true)
-// 🔹 Dữ liệu mẫu
 const drivers = ref([])
 const keyword = ref(null)
-const roleSearch = ref(null)
+const roleSearch = ref(0)
 const showModal = ref(false)
 const currentDriverId = ref(null)
 const formLoading = ref(false)
@@ -162,18 +185,19 @@ const driverFormRef = ref(null)
 const currentPage = ref(1)
 const paginate = ref(null)
 const optionRoles = [
-  {id: null, name: "Tất cả"},
-  {id: "driver", name: "Tài xế"},
-  {id: "assistant", name: "Phụ xe"},
+  {id: 0, name: "Tất cả"},
+  {id: 1, name: "Tài xế"},
+  {id: 2, name: "Phụ xe"},
 ]
 const formData = reactive({
   name: '',
   phone: '',
-  role: 'driver',
+  role: 1,
+  status: 0
 })
 const formRules = reactive({
   name: [
-    { required: true, message: 'Vui lòng nhập tên lái xe', trigger: 'blur' },
+    { required: true, message: 'Vui lòng nhập tên nhân viên', trigger: 'blur' },
     { min: 3, max: 50, message: 'Tên phải từ 3 đến 50 ký tự', trigger: 'blur' }
   ],
   phone: [
@@ -186,14 +210,19 @@ const formRules = reactive({
 })
 const loadData = async () => {
   loading.value = true
-  await employeeStore.actionGetEmployees({
+  const payload = {
     keyword: keyword.value,
-    role: roleSearch.value,
     page: currentPage.value,
-  }).then((response) => {
+  }
+
+  if(roleSearch.value) {
+    payload.role = roleSearch.value === 1 ? 'driver' : 'assistant'
+  }
+
+    await employeeStore.actionGetEmployees(payload).then((response) => {
     if (response && response.data) {
       const data =  response.data
-      drivers.value =data.data
+      drivers.value = data.data
       paginate.value = {
         perPage: data.meta.perPage,
         total: data.meta.total,
@@ -221,24 +250,28 @@ const getStatusType = (role) => {
 const resetForm = () => {
   if (driverFormRef.value) {
     driverFormRef.value.resetFields()
+    driverFormRef.value.clearValidate()
   }
   formData.name = formData.phone = ''
-  formData.role = 'driver'
+  formData.role = 1
+  formData.status = 0
   formLoading.value = false
   showModal.value = false
 }
 const openModal = (mode, row = null) => {
   if (mode === 'create') {
     formData.name = formData.phone = ''
-    formData.role = 'driver'
+    formData.role = 1
     isEditMode.value = false
+    formData.status = 0
     currentDriverId.value = null
   } else if (mode === 'edit' && row) {
     isEditMode.value = true
     currentDriverId.value = row.id
-    formData.role = row.role
+    formData.role = row.role === 'driver' ? 1: 2
     formData.name = row.name
     formData.phone = row.phone
+    formData.status = row.status ? true : false
   }
   showModal.value = true
 }
@@ -254,13 +287,14 @@ const setErrorField = (errors) => {
 }
 const createOrUpdate = async () => {
   if(!driverFormRef.value) return
-  await driverFormRef.value.validate((valid, fields) => {
+  await driverFormRef.value.validate((valid) => {
     if (valid) {
       formLoading.value = true
       const payload = {
         name: formData.name,
         phone: formData.phone,
-        role: formData.role,
+        role: formData.role === 1 ? 'driver' : 'assistant',
+        status:formData.status ? 1: 0,
         id:currentDriverId.value,
       }
       const response = !currentDriverId.value ? employeeStore.actionCreateEmployee(payload)
