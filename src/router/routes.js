@@ -37,6 +37,20 @@ export default [
         }
       },
       {
+        path: '/routes',
+        name: 'Routes',
+        component: () => import('../views/Route/Index.vue'),
+        meta: {
+          requireLogin: true,
+          breadCrumbs: [
+            {
+              'name': 'Routes',
+              'displayName': 'Danh sách tuyến',
+            },
+          ],
+        }
+      },
+      {
         path: '/assistants',
         name: 'Assistants',
         component: () => import('../views/Assistants/Index.vue'),

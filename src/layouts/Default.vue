@@ -14,9 +14,10 @@
 </template>
 
 <script setup>
+
 import Sidebar from "@/components/layouts/Sidebar.vue";
 import NavHeader from "@/components/layouts/NavHeader.vue";
-import {onBeforeMount, ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useAuthStore} from "@/store/auth";
 import LoadingPage from "@/components/Loading/LoadingPage.vue";
 const authStore = useAuthStore()
@@ -27,7 +28,7 @@ defineOptions({
 })
 const isSidebarCollapsed = ref(false)
 const isLoading = ref(false)
-onBeforeMount(async () => {
+onMounted(async () => {
   isLoading.value = true
   await authStore.actinGetMe()
   isLoading.value = false

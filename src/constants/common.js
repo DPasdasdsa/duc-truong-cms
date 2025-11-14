@@ -1,5 +1,12 @@
 export const ACCESS_TOKEN = 'access_token';
 export const REFRESH_TOKEN = 'refresh_token';
 export const NUMBER_EN_US_FORMAT = 'en-US';
-export const ICON_LOADING = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from SVG Spinners by Utkarsh Verma - https://github.com/n3r4zzurr0/svg-spinners/blob/main/LICENSE --><g><circle cx="12" cy="2.5" r="1.5" fill="#888888" opacity=".14"/><circle cx="16.75" cy="3.77" r="1.5" fill="#888888" opacity=".29"/><circle cx="20.23" cy="7.25" r="1.5" fill="#888888" opacity=".43"/><circle cx="21.5" cy="12" r="1.5" fill="#888888" opacity=".57"/><circle cx="20.23" cy="16.75" r="1.5" fill="#888888" opacity=".71"/><circle cx="16.75" cy="20.23" r="1.5" fill="#888888" opacity=".86"/><circle cx="12" cy="21.5" r="1.5" fill="#888888"/><animateTransform attributeName="transform" calcMode="discrete" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;30 12 12;60 12 12;90 12 12;120 12 12;150 12 12;180 12 12;210 12 12;240 12 12;270 12 12;300 12 12;330 12 12;360 12 12"/></g></svg>'
+export const ICON_LOADING = '<path class="path" d="\n' +
+  '          M 30 15\n' +
+  '          L 28 17\n' +
+  '          M 25.61 25.61\n' +
+  '          A 15 15, 0, 0, 1, 15 30\n' +
+  '          A 15 15, 0, 1, 1, 27.99 7.5\n' +
+  '          L 15 15\n' +
+  '        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>'
 

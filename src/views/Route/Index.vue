@@ -13,7 +13,7 @@
           </template>
           <div class="row">
             <div class="col-12 form-group mb-0">
-              <label class="label">Tìm kiếm theo biển số</label>
+              <label class="label">Tìm kiếm theo tuyến đường</label>
               <el-input
                 size="large"
                 v-model="keyword"
@@ -30,7 +30,7 @@
   <section class="box-layout">
     <div class="box-layout_header">
       <div class="box-layout_header-title p-0">
-        <h3>DANH SÁCH XE</h3>
+        <h3>DANH SÁCH TUYẾN ĐƯỜNG</h3>
       </div>
       <div class="box-layout_header-options">
         <el-button  @click="openModal('create')" :loading="loading" type="primary" :icon="Plus">Thêm mới</el-button>
@@ -40,32 +40,28 @@
       <div class="mt-3">
         <el-table
           v-loading="loading"
-          :data="vehicles"
+          :data="routesData"
           :element-loading-spinner="ICON_LOADING"
           element-loading-svg-view-box="-10, -10, 50, 50"
           border
           stripe
+          class="w-full mt-3 rounded-lg overflow-hidden"
         >
-          <el-table-column fixed  label="STT"  type="index" width="60" align="center" />
-          <el-table-column prop="license_plate" label="Biển số" />
-          <el-table-column prop="type" label="Loại xe" width="140" />
-          <el-table-column prop="brand" label="Hãng xe" width="180" />
-          <el-table-column label="Trạng thái" width="160" align="center">
+          <el-table-column label="STT"  type="index" width="60" align="center" />
+          <el-table-column prop="name" label="Tên Tuyến" min-width="220" />
+          <el-table-column prop="code" label="Mã Tuyến" width="120" align="center" />
+          <el-table-column label="Điểm đi" prop="departure_location" width="180" />
+          <el-table-column label="Điểm đến" prop="arrival_location" width="180" />
+          <el-table-column label="Khoảng cách (km)" prop="distance_km" width="150" align="center">
             <template #default="{ row }">
-              <el-tag
-                :type="row.status ? 'success' : 'warning'"
-              >
-                {{ row.status ? 'Đang hoạt động' : 'Tạm dừng' }}
-              </el-tag>
+              {{ row.distance_km }} km
             </template>
           </el-table-column>
-          <el-table-column label="Lái xe phụ trách" align="center" width="250">
+          <el-table-column label="Ngày tạo" prop="created_at" width="200">
             <template #default="{ row }">
-              <span v-if="row.driver_id">#{{ row.driver_id }}</span>
-              <el-tag type="info" v-else>Chưa phân công</el-tag>
+              {{ row.created_at }}
             </template>
           </el-table-column>
-          <el-table-column prop="created_at" label="Ngày tạo" width="200" />
           <el-table-column label="Thao tác" align="right" width="150">
             <template #default="scope">
               <el-button size="small" @click="openModal('edit', scope.row)">
@@ -95,7 +91,7 @@
     </div>
     <el-dialog
       v-model="showModal"
-      :title="isEditMode ? 'CHỈNH SỬA THÔNG TIN XE' : 'THÊM MỚI THÔNG TIN XE'"
+      :title="isEditMode ? 'CHỈNH SỬA THÔNG TIN TUYẾN' : 'THÊM MỚI THÔNG TIN TUYẾN'"
       width="500"
       class="rounded-lg"
     >
@@ -105,26 +101,17 @@
         :rules="formRules"
         label-position="top"
       >
-        <el-form-item label="Biển số xe" prop="license_plate" class="form-group positionR">
-          <el-input v-model="formData.license_plate" placeholder="Nhập thông tin biển số xe" />
+        <el-form-item label="Tên Tuyến" prop="name" class="form-group positionR">
+          <el-input v-model="formData.name" placeholder="Nhập thông tin biển số xe" />
         </el-form-item>
-        <el-form-item label="Loại xe" prop="type" class="form-group positionR">
-          <el-input v-model="formData.type" placeholder="Nhập thông tin loại xe" />
+        <el-form-item label="Điểm đi" prop="departure_location" class="form-group positionR">
+          <el-input v-model="formData.departure_location" placeholder="Nhập thông tin điểm đi" />
         </el-form-item>
-        <el-form-item label="Hãng xe" prop="brand" class="form-group positionR">
-          <el-input v-model="formData.brand" placeholder="Nhập thông tin hãng xe" />
+        <el-form-item label="Điểm đến" prop="arrival_location" class="form-group positionR">
+          <el-input v-model="formData.arrival_location" placeholder="Nhập thông tin điểm đến" />
         </el-form-item>
-        <el-form-item label="Trạng thái hoạt động" prop="status" class="form-group positionR">
-          <el-switch
-            v-model="formData.status"
-            inline-prompt
-            :active-text="'Đang hoạt động'"
-            :inactive-text="'Tạm dừng'"
-            size="large"
-          />
-          <i class="note-form text-gray-500 ml-3">
-            {{ formData.status ? 'Xe này hoạt động bình thường.' : 'Xe không khả dụng trên hệ thống.' }}
-          </i>
+        <el-form-item label="Khoảng cách (km)" prop="distance_km" class="form-group positionR">
+          <el-input v-model="formData.distance_km" placeholder="Nhập thông tin khoảng cách" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -142,7 +129,7 @@
 import {Filter, Plus} from "@element-plus/icons-vue"
 import {onMounted, reactive, ref} from "vue"
 import {ICON_LOADING} from "@/constants/common"
-import {useVehicleStore} from "@/store/vehicle";
+import {useRouteStore} from "@/store/route";
 import {ElMessage} from "element-plus";
 import router from "@/router";
 
@@ -150,10 +137,10 @@ onMounted(() => {
   loadData()
 })
 
-const vehicleStore = useVehicleStore();
+const routeStore = useRouteStore();
 const loading = ref(true)
 const keyword = ref(null)
-const vehicles = ref([])
+const routesData = ref([])
 const currentPage =ref(1)
 const paginate = ref(null)
 const showModal = ref(false)
@@ -161,23 +148,27 @@ const formLoading = ref(false)
 const vehicleFormRef = ref(null)
 const vehicleId = ref(0)
 const formData = reactive({
-  license_plate: '',
-  type: '',
-  brand: '',
-  status: 0
+  name: '',
+  departure_location: '',
+  arrival_location: '',
+  distance_km: '',
 })
 const formRules = reactive({
-  license_plate: [
-    { required: true, message: 'Vui lòng nhập thông tin biển số xe', trigger: 'blur' },
-    { min: 3, max: 50, message: 'Biển số xe phải từ 3 đến 50 ký tự', trigger: 'blur' }
+  name: [
+    { required: true, message: 'Vui lòng nhập tên', trigger: 'blur' },
+    { min: 3, max: 50, message: 'Tên tuyến phải từ 3 đến 50 ký tự', trigger: 'blur' }
   ],
-  brand: [
-    { required: true, message: 'Vui lòng nhập hãng xe', trigger: 'blur' },
-    { min: 3, max: 50, message: 'Hãng xe xe phải từ 3 đến 50 ký tự', trigger: 'blur' }
+  departure_location: [
+    { required: true, message: 'Vui lòng nhập điểm đi', trigger: 'blur' },
+    { min: 3, max: 50, message: 'Điểm đi phải từ 3 đến 50 ký tự', trigger: 'blur' }
   ],
-  type: [
-    { required: true, message: 'Vui lòng nhập loại xe', trigger: 'blur' },
-    { min: 3, max: 50, message: 'Loại xe xe phải từ 3 đến 50 ký tự', trigger: 'blur' }
+  arrival_location: [
+    { required: true, message: 'Vui lòng nhập điểm đến', trigger: 'blur' },
+    { min: 3, max: 50, message: 'Điểm đến phải từ 3 đến 50 ký tự', trigger: 'blur' }
+  ],
+  distance_km: [
+    { required: true, message: 'Vui lòng nhập khoảng cách', trigger: 'blur' },
+    { min: 3, max: 50, message: 'Khoảng cách phải từ 3 đến 50 ký tự', trigger: 'blur' }
   ],
 })
 const isEditMode = ref(false)
@@ -190,10 +181,10 @@ const loadData = async () => {
     page: currentPage.value,
   }
 
-  await vehicleStore.actionGetVehicle(payload).then((response) => {
+  await routeStore.actionGetRoute(payload).then((response) => {
     if (response && response.data) {
       const data =  response.data
-      vehicles.value = data.data
+      routesData.value = data.data
       paginate.value = {
         perPage: data.meta.perPage,
         total: data.meta.total,
@@ -212,21 +203,21 @@ const loadData = async () => {
 }
 const openModal = (mode, row = null) => {
   if (mode === 'create') {
-    formData.type = formData.license_plate = formData.brand = ''
+    formData.name = formData.departure_location = formData.arrival_location = formData.distance_km = ''
     formData.status = 0
     isEditMode.value = false
   } else if (mode === 'edit' && row) {
     isEditMode.value = true
     vehicleId.value = row.id
-    formData.brand = row.brand
-    formData.license_plate = row.license_plate
-    formData.type = row.type
-    formData.status = row.status ? true : false
+    formData.name = row.name
+    formData.departure_location = row.departure_location
+    formData.arrival_location = row.arrival_location
+    formData.distance_km = row.distance_km
   }
   showModal.value = true
 }
 const confirmDelete = async (id) => {
-  await vehicleStore.actionDeleteVehicle(id).then(async (response) => {
+  await routeStore.actionDeleteVehicle(id).then(async (response) => {
     ElMessage({
       message: response.message,
       type: 'success',
@@ -246,8 +237,7 @@ const resetForm = () => {
     vehicleFormRef.value.resetFields()
     vehicleFormRef.value.clearValidate()
   }
-  formData.license_plate = formData.phone = formData.brand = formData.type = ''
-  formData.status = 0
+  formData.name = formData.departure_location = formData.arrival_location = formData.distance_km = ''
   formLoading.value = false
   vehicleId.value = 0
   showModal.value = false
@@ -268,14 +258,14 @@ const createOrUpdate = async () => {
     if(valid) {
       formLoading.value = true
       const payload = {
-        license_plate: formData.license_plate,
-        type: formData.type,
-        brand: formData.brand,
-        status:formData.status ? 1: 0,
+        name: formData.name,
+        departure_location: formData.departure_location,
+        arrival_location: formData.arrival_location,
+        distance_km: formData.distance_km,
         id:vehicleId.value,
       }
-      const response = !vehicleId.value ? vehicleStore.actionCreateVehicle(payload)
-        :vehicleStore.actionUpdateVehicle(payload)
+      const response = !vehicleId.value ? routeStore.actionCreateRoute(payload)
+        :routeStore.actionUpdateRoute(payload)
 
       response.then(async (response) => {
         ElMessage({

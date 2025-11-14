@@ -19,10 +19,8 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>
-                <router-link to="" class="item-option-setting">
+              <el-dropdown-item @click="switchProfile">
                   Thông tin cá nhân
-                </router-link>
               </el-dropdown-item>
               <el-dropdown-item @click="processLogout" class="item-option-setting">
                 Đăng xuất
@@ -56,5 +54,8 @@ const processLogout = async () => {
       router.push("/login")
     }
   })
+}
+const switchProfile = () => {
+  router.push("/profile")
 }
 </script>

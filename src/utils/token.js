@@ -9,7 +9,7 @@ const removeAccessToken = () => {
 const setAccessToken = (res) => {
   Cookie.set(ACCESS_TOKEN, res.access_token, {
     secure: true,
-    // expires: Math.floor((res.expires_in * 100) / (24 * 60)) / 100 // days
+    expires: Math.floor((res.expires_in * 100) / (24 * 60)) / 100 // days
     // expires: res.expires_in * 1000 // days
   });
 };

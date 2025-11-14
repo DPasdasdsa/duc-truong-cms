@@ -78,7 +78,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="created_at" label="Ngày tạo" width="200" />
-            <el-table-column label="Thao tác" align="right" width="150">
+          <el-table-column label="Thao tác" align="right" width="150">
             <template #default="scope">
               <el-button size="small" @click="openModal('edit', scope.row)">
                 Sửa
@@ -109,7 +109,6 @@
       v-model="showModal"
       :title="isEditMode ? 'CHỈNH SỬA NHÂN VIÊN' : 'THÊM MỚI NHÂN VIÊN'"
       width="500"
-      :close-on-click-modal="false"
       class="rounded-lg"
     >
       <el-form
