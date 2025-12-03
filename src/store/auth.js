@@ -17,7 +17,9 @@ export const useAuthStore = defineStore("authStore", {
         params
       })
         .then((res) => {
-          this.user = res.data
+          if(res.data) {
+            this.user = res.data
+          }
         })
         .catch((err) => {
           throw err;
