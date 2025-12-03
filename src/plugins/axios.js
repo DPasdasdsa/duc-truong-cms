@@ -20,7 +20,6 @@ service.interceptors.request.use(
     config.headers = config.headers || {};
     config.headers.common = config.headers.common || {};
     const token = getToken(ACCESS_TOKEN);
-    console.log(token)
     if (token) {
       config.headers['Accept'] = 'application/json';
       config.headers['Authorization'] = `Bearer ${token}`;
