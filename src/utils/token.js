@@ -7,6 +7,7 @@ const removeAccessToken = () => {
 };
 
 const setAccessToken = (res) => {
+  console.log(res)
   Cookie.set(ACCESS_TOKEN, res.access_token, {
     secure: true,
     expires: Math.floor((res.expires_in * 100) / (24 * 60)) / 100 // days

@@ -84,14 +84,16 @@ const onSubmit = () => {
       }).then(async (res) => {
         const data = res.data
         if (data) {
-          await setAccessToken(data)
+          setAccessToken(data)
           ElMessage({
             message: 'Đăng nhập thành công !',
             type: 'success',
           })
-          await router.push({
-            name: 'Profile',
-          })
+          setTimeout(() => {
+             router.push({
+              name: 'Profile',
+            })
+          },2000)
         }
       }).catch(e => {
         ElMessage({
