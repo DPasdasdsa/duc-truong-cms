@@ -81,15 +81,15 @@ const onSubmit = () => {
       await authStore.actionLogin({
         email: form.value.username,
         password: form.value.password
-      }).then((res) => {
+      }).then(async (res) => {
         const data = res.data
-        if(data) {
-          setAccessToken(data)
+        if (data) {
+          await setAccessToken(data)
           ElMessage({
             message: 'Đăng nhập thành công !',
             type: 'success',
           })
-          router.push({
+          await router.push({
             name: 'Profile',
           })
         }
