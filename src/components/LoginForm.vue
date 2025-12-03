@@ -81,7 +81,7 @@ const onSubmit = () => {
       await authStore.actionLogin({
         email: form.value.username,
         password: form.value.password
-      }).then(async (res) => {
+      }).then((res) => {
         const data = res.data
         if (data) {
           setAccessToken(data)
@@ -89,11 +89,9 @@ const onSubmit = () => {
             message: 'Đăng nhập thành công !',
             type: 'success',
           })
-          setTimeout(() => {
-             router.push({
-              name: 'Profile',
-            })
-          },2000)
+          router.push({
+            name: 'Profile',
+          })
         }
       }).catch(e => {
         ElMessage({
